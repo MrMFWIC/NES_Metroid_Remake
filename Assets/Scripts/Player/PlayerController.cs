@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(Animator))]
+
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
@@ -15,7 +16,50 @@ public class PlayerController : MonoBehaviour
     public LayerMask isGroundlayer;
     public Transform groundCheck;
     public float groundCheckRadius = 0.02f;
-    public bool isJumpAttack;
+
+    Coroutine gravityChange;
+
+    private int _lives = 3;
+    public int maxLives = 5;
+
+    public int lives
+    {
+        get { return _lives; }
+        set
+        {
+            /*if (_lives > value)
+            {
+                Lost a life - Respawn
+            }*/
+
+            _lives = value;
+
+            if (_lives > maxLives)
+            {
+                _lives = maxLives;
+            }
+
+            /*if (_lives < 0)
+            {
+                Game Over
+            }*/
+
+            Debug.Log("Lives are set to: " + lives.ToString());
+        }
+    }
+
+    private int _score = 0;
+
+    public int score
+    {
+        get { return _score; }
+        set
+        {
+            _score = value;
+
+            Debug.Log("Your current score is: " + score.ToString());
+        }
+    }
 
     void Start()
     {
@@ -30,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
         if (jumpForce <= 0)
         {
-            jumpForce = 525;
+            jumpForce = 420;
         }
 
         if (groundCheckRadius <= 0)
@@ -69,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
         if (curPlayingClip.Length > 0)
         {
-            if (Input.GetButtonDown("Fire1") && curPlayingClip[0].clip.name != "Attack")
+            if (Input.GetButtonDown("Fire1") && curPlayingClip[0].clip.name != "Attack" && isGrounded)
                 anim.SetTrigger("Attack");
             else if (curPlayingClip[0].clip.name == "Attack")
                 rb.velocity = Vector2.zero;
@@ -79,5 +123,59 @@ public class PlayerController : MonoBehaviour
                 rb.velocity = moveDirection;
             }
         }
+
+        if (curPlayingClip.Length > 0)
+        {
+            if (Input.GetButtonDown("Fire2") && curPlayingClip[0].clip.name != "Ball" && curPlayingClip[0].clip.name != "BallExplosion" && curPlayingClip[0].clip.name != "Transform" && isGrounded)
+            {
+                anim.SetTrigger("Ball");
+            }
+        }
+
+        if (curPlayingClip[0].clip.name == "Ball")
+        {
+            speed = 7.5f;
+            jumpForce = 1;
+        }
+        else
+        {
+            speed = 5.0f;
+            jumpForce = 420;
+        }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        AnimatorClipInfo[] curPlayingClip = anim.GetCurrentAnimatorClipInfo(0);
+
+        if (collision.gameObject.tag != "Player" && curPlayingClip[0].clip.name == "Ball") 
+        {
+            anim.SetTrigger("Impact");
+        }
+    }
+
+    public void StartGravityChange()
+    {
+        if (gravityChange == null)
+        {
+            gravityChange = StartCoroutine(GravityChange());
+        }
+        else
+        {
+            StopCoroutine(gravityChange);
+            gravityChange = null;
+            rb.gravityScale *= 2;
+            gravityChange = StartCoroutine(GravityChange());
+        }
+    }
+
+    IEnumerator GravityChange()
+    {
+        rb.gravityScale /= 2;
+
+        yield return new WaitForSeconds(8.0f);
+
+        rb.gravityScale *= 2;
+        gravityChange = null;
     }
 }
