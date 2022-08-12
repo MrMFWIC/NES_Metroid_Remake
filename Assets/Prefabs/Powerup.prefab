@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4302928074084713896}
   - component: {fileID: 1237595835355691856}
   - component: {fileID: 1100344470889075641}
-  - component: {fileID: 662154775359090786}
   - component: {fileID: 3265957365463595427}
+  - component: {fileID: 1946058086285867890}
   m_Layer: 0
   m_Name: Powerup
   m_TagString: Pickup
@@ -107,19 +107,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &662154775359090786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5136468222421270822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1f164f2cbc54b74dbeff5391cd4878f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPickup: 0
 --- !u!61 &3265957365463595427
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -146,3 +133,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.518, y: 0.51403135}
   m_EdgeRadius: 0
+--- !u!114 &1946058086285867890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5136468222421270822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f164f2cbc54b74dbeff5391cd4878f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPickup: 0

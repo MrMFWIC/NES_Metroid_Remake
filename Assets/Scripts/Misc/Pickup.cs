@@ -26,6 +26,7 @@ public class Pickup : MonoBehaviour
                     break;
                 case Pickups.Powerup:
                     curPlayer.StartGravityChange();
+                    Debug.Log("Gravity change powerup collected, functionality not working");
                     break;
                 case Pickups.Score:
                     curPlayer.score++;

@@ -148,7 +148,7 @@ public class PlayerController : MonoBehaviour
     {
         AnimatorClipInfo[] curPlayingClip = anim.GetCurrentAnimatorClipInfo(0);
 
-        if (collision.gameObject.tag != "Player" && curPlayingClip[0].clip.name == "Ball") 
+        if (collision.gameObject.tag != "Player" && curPlayingClip[0].clip.name == "Ball" && collision.gameObject.tag != "Pickup") 
         {
             anim.SetTrigger("Impact");
         }

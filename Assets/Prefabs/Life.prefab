@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4446693703099723277}
   - component: {fileID: 7250361560634616352}
   - component: {fileID: 2490476035148468271}
-  - component: {fileID: 7128795174369204447}
   - component: {fileID: 3571212009766773968}
+  - component: {fileID: 3285769643305560019}
   m_Layer: 0
   m_Name: Life
   m_TagString: Pickup
@@ -107,19 +107,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7128795174369204447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8757833328731221098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1f164f2cbc54b74dbeff5391cd4878f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentPickup: 1
 --- !u!61 &3571212009766773968
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -146,3 +133,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.51, y: 0.50603086}
   m_EdgeRadius: 0
+--- !u!114 &3285769643305560019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8757833328731221098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f164f2cbc54b74dbeff5391cd4878f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPickup: 1
