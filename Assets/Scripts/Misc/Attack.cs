@@ -9,7 +9,9 @@ public class Attack : MonoBehaviour
     public float projectileSpeed;
     public Transform spawnPointLeft;
     public Transform spawnPointRight;
+    public Transform spawnPoint;
     public Projectile projectilePrefab;
+    public TurretProjectile turretProjectilePrefab;
 
     private void Start()
     {
@@ -35,5 +37,22 @@ public class Attack : MonoBehaviour
                 spawnPointLeft.position, spawnPointLeft.rotation);
             curProjectile.speed = -projectileSpeed;
         }
+    }
+
+    public void TurretFire()
+    {
+        if (!sr.flipX)
+        {
+            TurretProjectile curProjectile = Instantiate(turretProjectilePrefab,
+                spawnPoint.position, spawnPoint.rotation);
+            curProjectile.speed = -projectileSpeed;
+        }
+        else if (sr.flipX)
+        {
+            TurretProjectile curProjectile = Instantiate(turretProjectilePrefab,
+                spawnPoint.position, spawnPoint.rotation);
+            curProjectile.speed = projectileSpeed;
+        }
+        
     }
 }

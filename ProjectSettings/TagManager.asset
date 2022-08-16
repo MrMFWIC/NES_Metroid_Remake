@@ -7,6 +7,9 @@ TagManager:
   - Projectile
   - Ground
   - Pickup
+  - Barrier
+  - Walker
+  - Turret
   layers:
   - Default
   - TransparentFX

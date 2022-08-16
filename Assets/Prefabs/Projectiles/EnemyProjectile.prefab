@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6552427699259144168}
   - component: {fileID: 6193232499467507559}
   - component: {fileID: 854374628120597910}
-  - component: {fileID: 6146380586650542133}
+  - component: {fileID: 2657601895516299175}
   m_Layer: 0
-  m_Name: PlayerProjectile
+  m_Name: EnemyProjectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 7238569894804598190}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.196, y: 0.937, z: -0.15192421}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: -2034752331
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 956285054, guid: 25769a33b58e14f4c8ec8e261669d979, type: 3}
+  m_Sprite: {fileID: -1991707189, guid: 67a7d8df1b87f79458a5ad806ce40bd1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -118,14 +118,14 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.35011232, y: 0.22250001}
+    oldSize: {x: 0.12064155, y: 0.12380954}
     newSize: {x: 0.44458708, y: 0.2825397}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -134,7 +134,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.08, y: 0.08}
   m_EdgeRadius: 0
---- !u!114 &6146380586650542133
+--- !u!114 &2657601895516299175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,8 +143,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7238569894804598190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 020de340f21b931488e79590184d4a8b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3067170e3b876da498f5c574e1afd0a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  lifetime: 0
+  speed: 3
+  lifetime: 2
