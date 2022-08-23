@@ -22,7 +22,7 @@ public class Pickup : MonoBehaviour
             switch (currentPickup)
             {
                 case Pickups.Life:
-                    curPlayer.lives++;
+                    GameManager.instance.lives++;
                     break;
                 case Pickups.Powerup:
                     curPlayer.StartGravityChange();

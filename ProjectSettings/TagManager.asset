@@ -10,6 +10,7 @@ TagManager:
   - Barrier
   - Walker
   - Turret
+  - Lava
   layers:
   - Default
   - TransparentFX

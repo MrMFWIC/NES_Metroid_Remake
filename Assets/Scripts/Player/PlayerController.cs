@@ -19,35 +19,6 @@ public class PlayerController : MonoBehaviour
 
     Coroutine gravityChange;
 
-    private int _lives = 3;
-    public int maxLives = 5;
-
-    public int lives
-    {
-        get { return _lives; }
-        set
-        {
-            /*if (_lives > value)
-            {
-                Lost a life - Respawn
-            }*/
-
-            _lives = value;
-
-            if (_lives > maxLives)
-            {
-                _lives = maxLives;
-            }
-
-            /*if (_lives < 0)
-            {
-                Game Over
-            }*/
-
-            Debug.Log("Lives are set to: " + lives.ToString());
-        }
-    }
-
     private int _score = 0;
 
     public int score
@@ -151,6 +122,11 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag != "Player" && curPlayingClip[0].clip.name == "Ball" && collision.gameObject.tag != "Pickup") 
         {
             anim.SetTrigger("Impact");
+        }
+
+        if (collision.gameObject.tag == "Lava")
+        {
+            GameManager.instance.lives--;
         }
     }
 

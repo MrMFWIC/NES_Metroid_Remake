@@ -22,6 +22,11 @@ public class TurretProjectile : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Ground")
         {
+            if (collision.gameObject.tag == "Player")
+            {
+                GameManager.instance.lives--;
+            }
+
             Destroy(this.gameObject);
         }
     }

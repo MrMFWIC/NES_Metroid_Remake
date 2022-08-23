@@ -8,6 +8,8 @@ public class LevelEnd : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            GameManager.instance.Victory();
+
             Debug.Log("YOU WIN");
         }
     }
