@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
             }
 
             _lives = value;
+            //custom event that sends the _lives value that has just changed - event could be called something like OnLifeValueChange
+            //OnLifeValueChange.Invoke(_lives)
 
             if (_lives > maxLives)
             {
