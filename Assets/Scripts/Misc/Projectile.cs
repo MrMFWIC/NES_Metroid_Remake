@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Projectile : MonoBehaviour
 {
     public float speed;
     public float lifetime;
     public int damage;
+
+    public AudioClip impactSFX;
     
     void Start()
     {

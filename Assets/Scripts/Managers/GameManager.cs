@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,8 +28,7 @@ public class GameManager : MonoBehaviour
             }
 
             _lives = value;
-            //custom event that sends the _lives value that has just changed - event could be called something like OnLifeValueChange
-            //OnLifeValueChange.Invoke(_lives)
+            
 
             if (_lives > maxLives)
             {
@@ -40,7 +40,22 @@ public class GameManager : MonoBehaviour
                 GameOver();
             }
 
-            Debug.Log("Lives are set to: " + lives.ToString());
+            OnLifeValueChanged.Invoke(_lives);
+        }
+    }
+
+    private int _score = 0;
+
+    public int score
+    {
+        get { return _score; }
+        set
+        { 
+            _score = value;
+
+            OnScoreValueChanged.Invoke(_score);
+
+            Debug.Log("Score: " + _score.ToString());
         }
     }
 
@@ -48,9 +63,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PlayerController playerInstance;
     [HideInInspector] public Transform currentSpawnPoint;
     [HideInInspector] public Level currentLevel;
+    [HideInInspector] public UnityEvent<int> OnLifeValueChanged;
+    [HideInInspector] public UnityEvent<int> OnScoreValueChanged;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (instance)
         {
@@ -63,32 +79,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (SceneManager.GetActiveScene().name == "Level")
-            {
-                SceneManager.LoadScene("Title");
-            }
-            else if (SceneManager.GetActiveScene().name == "Title")
-            {
-                SceneManager.LoadScene("Level");
-            }
-            else if (SceneManager.GetActiveScene().name == "GameOver")
-            {
-                SceneManager.LoadScene("Title");
-                _lives = maxLives;
-            }
-            else if (SceneManager.GetActiveScene().name == "Victory")
-            {
-                SceneManager.LoadScene("Title");
-                _lives = maxLives;
-            }
-        }
-    }
-
     public void SpawnPlayer(Transform spawnLocation)
     {
         playerInstance = Instantiate(playerPrefab, spawnLocation.position, spawnLocation.rotation);
@@ -97,21 +87,17 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         SceneManager.LoadScene("GameOver");
-        
-        Debug.Log("GameOver");
     }
 
     public void Victory()
     {
         SceneManager.LoadScene("Victory");
-
-        Debug.Log("Victory");
     }
 
     public void Respawn()
     {
         playerInstance.transform.position = currentSpawnPoint.position;
 
-        Debug.Log("Respawned");
+        playerInstance.CallRespawnSound();
     }
 }

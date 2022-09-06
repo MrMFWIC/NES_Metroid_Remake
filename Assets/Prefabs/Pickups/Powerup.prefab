@@ -146,3 +146,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPickup: 0
+  pickupSFX: {fileID: 8300000, guid: 190c60fa43311034b87d1e7dd9c1d3bd, type: 3}

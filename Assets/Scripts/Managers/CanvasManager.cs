@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class CanvasManager : MonoBehaviour
 {
+    public AudioMixer audioMixer;
+
     [Header("Buttons")]
     public Button startButton;
     public Button settingsButton;
@@ -21,10 +24,14 @@ public class CanvasManager : MonoBehaviour
     public GameObject pauseMenu;
 
     [Header("Slider")]
-    public Slider volSlider;
+    public Slider masterVolSlider;
+    public Slider musicVolSlider;
+    public Slider SFXVolSlider;
 
     [Header("Text")]
-    public Text volSliderText;
+    public Text masterVolSliderText;
+    public Text musicVolSliderText;
+    public Text SFXVolSliderText;
     public Text mutedText;
 
     void Start()
@@ -46,13 +53,38 @@ public class CanvasManager : MonoBehaviour
 
         if (backButton)
         {
-            backButton.onClick.AddListener(() => ShowMainMenu());
+            if (SceneManager.GetActiveScene().name == "Title")
+            {
+                backButton.onClick.AddListener(() => ShowMainMenu());
+            }
+            else if (SceneManager.GetActiveScene().name == "Level")
+            {
+                backButton.onClick.AddListener(() => ShowPauseMenu());
+            }
         }
 
-        if (volSlider)
+        if (masterVolSlider)
         {
-            volSlider.onValueChanged.AddListener((value) => SliderValueChange(value));
-            volSliderText.text = volSlider.value.ToString();
+            float mixerValue;
+            audioMixer.GetFloat("MasterVol", out mixerValue);
+            masterVolSlider.onValueChanged.AddListener((value) => MasterSliderValueChange(value));
+            masterVolSlider.value = mixerValue + 80;
+        }
+
+        if (musicVolSlider)
+        {
+            float mixerValue;
+            audioMixer.GetFloat("MusicVol", out mixerValue);
+            musicVolSlider.onValueChanged.AddListener((value) => MusicSliderValueChange(value));
+            musicVolSlider.value = mixerValue + 80;
+        }
+
+        if (SFXVolSlider)
+        {
+            float mixerValue;
+            audioMixer.GetFloat("SFXVol", out mixerValue);
+            SFXVolSlider.onValueChanged.AddListener((value) => SFXSliderValueChange(value));
+            SFXVolSlider.value = mixerValue + 80;
         }
 
         if (resumeGame)
@@ -67,8 +99,8 @@ public class CanvasManager : MonoBehaviour
 
         if (muteButton)
         {
-            muteButton.onClick.AddListener(() => MuteVolume());
             mutedText.text = " ";
+            muteButton.onClick.AddListener(() => MuteVolume());
         }
     }
 
@@ -94,7 +126,10 @@ public class CanvasManager : MonoBehaviour
 
     void StartGame()
     {
+        GameManager.instance.score = 0;
+        Time.timeScale = 1;
         SceneManager.LoadScene("Level");
+        pauseMenu.SetActive(false);
     }
 
     void QuitGame()
@@ -108,14 +143,28 @@ public class CanvasManager : MonoBehaviour
 
     void ShowSettingsMenu()
     {
-        mainMenu.SetActive(false);
-        settingsMenu.SetActive(true);
+        if (SceneManager.GetActiveScene().name == "Title")
+        {
+            mainMenu.SetActive(false);
+            settingsMenu.SetActive(true);
+        }
+        else if (SceneManager.GetActiveScene().name == "Level")
+        {
+            pauseMenu.SetActive(false);
+            settingsMenu.SetActive(true);
+        }
     }
 
     void ShowMainMenu()
     {
-        mainMenu.SetActive(true);
         settingsMenu.SetActive(false);
+        mainMenu.SetActive(true);
+    }
+
+    void ShowPauseMenu()
+    {
+        settingsMenu.SetActive(false);
+        pauseMenu.SetActive(true);
     }
 
     void ResumeGame()
@@ -124,19 +173,30 @@ public class CanvasManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    void SliderValueChange(float value)
+    void MasterSliderValueChange(float value)
     {
-        if (volSliderText)
+        if (masterVolSliderText)
         {   
-            if (muteButton)
-            {
-                if (mutedText.text == "X")
-                {
-                    value = 0;
-                }
-            }
-            
-            volSliderText.text = value.ToString();
+            masterVolSliderText.text = (value).ToString();
+            audioMixer.SetFloat("MasterVol", value - 80);
+        }
+    }
+
+    void MusicSliderValueChange(float value)
+    {
+        if (musicVolSliderText)
+        {
+            musicVolSliderText.text = value.ToString();
+            audioMixer.SetFloat("MusicVol", value - 80);
+        }
+    }
+
+    void SFXSliderValueChange(float value)
+    {
+        if (SFXVolSliderText)
+        {
+            SFXVolSliderText.text = value.ToString();
+            audioMixer.SetFloat("SFXVol", value - 80);
         }
     }
 
@@ -150,13 +210,14 @@ public class CanvasManager : MonoBehaviour
         if (mutedText.text == " ")
         {
             mutedText.text = "X";
-            volSlider.value = 0;
-            volSlider.enabled = false;
+            masterVolSlider.value = 0;
+            audioMixer.SetFloat("MasterVol", -80.0f);
+            masterVolSlider.enabled = false;
         }
         else
         {
             mutedText.text = " ";
-            volSlider.enabled = true;
+            masterVolSlider.enabled = true;
         }
     }
 }

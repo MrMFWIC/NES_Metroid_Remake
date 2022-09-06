@@ -23,6 +23,11 @@ public class EnemyWalker : Enemy
 
     private void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            return;
+        }
+
         AnimatorClipInfo[] curClips = anim.GetCurrentAnimatorClipInfo(0);
 
         if (curClips[0].clip.name == "Walker")

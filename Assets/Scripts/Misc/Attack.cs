@@ -5,6 +5,7 @@ using UnityEngine;
 public class Attack : MonoBehaviour
 {
     SpriteRenderer sr;
+    AudioSourceManager sfxManager;
 
     public float projectileSpeed;
     public Transform spawnPointLeft;
@@ -13,9 +14,13 @@ public class Attack : MonoBehaviour
     public Projectile projectilePrefab;
     public TurretProjectile turretProjectilePrefab;
 
+    public AudioClip attackSFX;
+    public AudioClip enemyShootSFX;
+
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
+        sfxManager = GetComponent<AudioSourceManager>();
 
         if (projectileSpeed <= 0)
         {
@@ -37,6 +42,8 @@ public class Attack : MonoBehaviour
                 spawnPointLeft.position, spawnPointLeft.rotation);
             curProjectile.speed = -projectileSpeed;
         }
+
+        sfxManager.Play(attackSFX, false);
     }
 
     public void TurretFire()
@@ -53,6 +60,7 @@ public class Attack : MonoBehaviour
                 spawnPoint.position, spawnPoint.rotation);
             curProjectile.speed = projectileSpeed;
         }
-        
+
+        sfxManager.Play(enemyShootSFX, false);
     }
 }

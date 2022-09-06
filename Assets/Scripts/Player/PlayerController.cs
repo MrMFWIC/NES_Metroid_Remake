@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(SpriteRenderer), typeof(Animator))]
 
 public class PlayerController : MonoBehaviour
 {
+    AudioSourceManager sfxManager;
     Rigidbody2D rb;
     SpriteRenderer sr;
     Animator anim;
@@ -17,27 +20,23 @@ public class PlayerController : MonoBehaviour
     public LayerMask isGroundlayer;
     public Transform groundCheck;
     public float groundCheckRadius = 0.02f;
+    public bool isPoweredUp = false;
 
-    Coroutine gravityChange;
+    public AudioClip jumpSFX;
+    public AudioClip ballSFX;
+    public AudioClip respawnSFX;
+    public AudioClip ballImpactSFX;
 
-    private int _score = 0;
-
-    public int score
-    {
-        get { return _score; }
-        set
-        {
-            _score = value;
-
-            Debug.Log("Your current score is: " + score.ToString());
-        }
-    }
+    Coroutine jumpForceChange;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        sfxManager = GetComponent<AudioSourceManager>();
+
+        sfxManager.Play(respawnSFX, false);
 
         if (speed <= 0)
         {
@@ -73,6 +72,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             rb.AddForce(Vector2.up * jumpForce);
+            sfxManager.Play(jumpSFX, false);
         }
 
         if (isGrounded)
@@ -91,7 +91,9 @@ public class PlayerController : MonoBehaviour
         if (curPlayingClip.Length > 0)
         {
             if (Input.GetButtonDown("Fire1") && curPlayingClip[0].clip.name != "Attack" && isGrounded)
+            {
                 anim.SetTrigger("Attack");
+            }
             else if (curPlayingClip[0].clip.name == "Attack")
                 rb.velocity = Vector2.zero;
             else
@@ -106,6 +108,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetButtonDown("Fire2") && curPlayingClip[0].clip.name != "Ball" && curPlayingClip[0].clip.name != "BallExplosion" && curPlayingClip[0].clip.name != "Transform" && isGrounded)
             {
                 anim.SetTrigger("Ball");
+                sfxManager.Play(ballSFX, false);
             }
         }
 
@@ -117,7 +120,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             speed = 5.0f;
-            jumpForce = 420;
+            if (!isPoweredUp)
+                jumpForce = 420;
         }
     }
 
@@ -128,6 +132,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag != "Player" && curPlayingClip[0].clip.name == "Ball" && collision.gameObject.tag != "Pickup") 
         {
             anim.SetTrigger("Impact");
+            sfxManager.Play(ballImpactSFX, false);
         }
 
         if (collision.gameObject.tag == "Lava")
@@ -136,28 +141,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void StartGravityChange()
+    public void StartJumpForceChange()
     {
-        if (gravityChange == null)
+        if (jumpForceChange == null)
         {
-            gravityChange = StartCoroutine(GravityChange());
+            jumpForceChange = StartCoroutine(JumpForceChange());
         }
         else
         {
-            StopCoroutine(gravityChange);
-            gravityChange = null;
-            rb.gravityScale *= 2;
-            gravityChange = StartCoroutine(GravityChange());
+            StopCoroutine(jumpForceChange);
+            jumpForceChange = null;
+            isPoweredUp = false;
+            jumpForce = 420;
+            jumpForceChange = StartCoroutine(JumpForceChange());
         }
     }
 
-    IEnumerator GravityChange()
+    IEnumerator JumpForceChange()
     {
-        rb.gravityScale /= 2;
+        isPoweredUp = true;
+        jumpForce = 600;
 
         yield return new WaitForSeconds(8.0f);
 
-        rb.gravityScale *= 2;
-        gravityChange = null;
+        isPoweredUp = false;
+        jumpForce = 420;
+        jumpForceChange = null;
+    }
+
+    public void CallRespawnSound()
+    {
+        sfxManager.Play(respawnSFX, false);
     }
 }

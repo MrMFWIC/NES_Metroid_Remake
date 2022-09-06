@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer), typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer), typeof(Animator), typeof(AudioSourceManager))]
 public class Enemy : MonoBehaviour
 {
     protected SpriteRenderer sr;
     protected Animator anim;
+    protected AudioSourceManager sfxManager;
 
     protected int _health;
     public int maxHealth;
+
+    public AudioClip deathSFX;
 
     public int health
     {
@@ -35,6 +38,7 @@ public class Enemy : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        sfxManager = GetComponent<AudioSourceManager>();
 
         if (maxHealth <= 0)
         {
@@ -46,6 +50,8 @@ public class Enemy : MonoBehaviour
 
     public virtual void Death()
     {
+        sfxManager.Play(deathSFX, false);
+
         anim.SetTrigger("Death");
     }
 

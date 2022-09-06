@@ -12,25 +12,39 @@ public class HUDManager : MonoBehaviour
     public GameObject HUD;
 
     [Header("Text")]
-    public Text livesText;
+    public Text lifeText;
     public Text scoreText;
 
     [Header("Bars")]
     public GameObject healthBar;
-    int oldLives;  
-    int oldScore;
 
     void Start()
     {
-        oldLives = GameManager.instance.lives;
-        oldScore = curPlayer.score;
-        //GameManager.instance.OnLifeValueChanged.AddListener((value) => LifeUpdate(value));
+        if (lifeText)
+        {
+            GameManager.instance.OnLifeValueChanged.AddListener((value) => UpdateLifeText(value));
+        }
+
+        if (scoreText)
+        {
+            GameManager.instance.OnScoreValueChanged.AddListener((value) => UpdateScoreText(value));
+        }
     }
 
-    //create a function that takes an int parameter
-    void LifeUpdate(int value)
+    void UpdateLifeText(int value)
     {
-        livesText.text = "LIVES: " + value.ToString();
+        if (lifeText)
+        {
+            lifeText.text = "LIVES: " + value.ToString();
+        }
+    }
+
+    void UpdateScoreText(int value)
+    {
+        if (scoreText)
+        {
+            scoreText.text = "Score: " + value.ToString();
+        }
     }
 
     void Update()
@@ -42,20 +56,6 @@ public class HUDManager : MonoBehaviour
         else
         {
             HUD.SetActive(false);
-        }
-        
-        livesText.text = "LIVES: " + oldLives;
-        if (oldLives > GameManager.instance.lives)
-        {
-            oldLives--;
-            livesText.text = "LIVES: " + GameManager.instance.lives.ToString();
-        }
-        
-        scoreText.text = "SCORE: " + oldScore;
-        if (oldScore < curPlayer.score)
-        {
-            oldScore++;
-            scoreText.text = "SCORE: " + curPlayer.score.ToString();
         }
     }
 }

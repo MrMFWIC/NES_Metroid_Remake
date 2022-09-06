@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
+    HUDManager HUD;
+
     public enum Pickups
     {
         Powerup,
@@ -13,11 +15,19 @@ public class Pickup : MonoBehaviour
 
     public Pickups currentPickup;
 
+    public AudioClip pickupSFX;
+
+    void Start()
+    {
+        HUD = GetComponent<HUDManager>();    
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
             PlayerController curPlayer = collision.gameObject.GetComponent<PlayerController>();
+            AudioSourceManager sfxManager = collision.gameObject.GetComponent<AudioSourceManager>();
 
             switch (currentPickup)
             {
@@ -25,13 +35,14 @@ public class Pickup : MonoBehaviour
                     GameManager.instance.lives++;
                     break;
                 case Pickups.Powerup:
-                    curPlayer.StartGravityChange();
-                    Debug.Log("Gravity change powerup collected, functionality not working");
+                    curPlayer.StartJumpForceChange();
                     break;
                 case Pickups.Score:
-                    curPlayer.score++;
+                    GameManager.instance.score++;
                     break;
             }
+
+            sfxManager.Play(pickupSFX, false);
 
             Destroy(gameObject);
         }
