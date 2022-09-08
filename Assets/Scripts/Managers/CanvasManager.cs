@@ -17,6 +17,7 @@ public class CanvasManager : MonoBehaviour
     public Button resumeGame;
     public Button returnToMenu;
     public Button muteButton;
+    public Button creditsButton;
 
     [Header("Menus")]
     public GameObject mainMenu;
@@ -101,6 +102,11 @@ public class CanvasManager : MonoBehaviour
         {
             mutedText.text = " ";
             muteButton.onClick.AddListener(() => MuteVolume());
+        }
+
+        if (creditsButton)
+        {
+            creditsButton.onClick.AddListener(() => LoadCredits());
         }
     }
 
@@ -219,5 +225,10 @@ public class CanvasManager : MonoBehaviour
             mutedText.text = " ";
             masterVolSlider.enabled = true;
         }
+    }
+
+    void LoadCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 }
