@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, isGroundlayer);
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded && curPlayingClip[0].clip.name != "Ball")
         {
             rb.velocity = Vector2.zero;
             rb.AddForce(Vector2.up * jumpForce);
