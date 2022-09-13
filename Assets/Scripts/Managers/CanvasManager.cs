@@ -135,7 +135,10 @@ public class CanvasManager : MonoBehaviour
         GameManager.instance.score = 0;
         Time.timeScale = 1;
         SceneManager.LoadScene("Level");
-        pauseMenu.SetActive(false);
+        if (pauseMenu)
+        {
+            pauseMenu.SetActive(false);
+        }
     }
 
     void QuitGame()
