@@ -256,6 +256,7 @@ MonoBehaviour:
   groundCheckRadius: 0.02
   isPoweredUp: 0
   jumpSFX: {fileID: 8300000, guid: 3041567110dcf444c9ba29b2c37c293a, type: 3}
+  walkSFX: {fileID: 8300000, guid: 121167e1947e26741a6994ea80089a38, type: 3}
   ballSFX: {fileID: 8300000, guid: b3dfdc53df488814b9b0df94c86ba708, type: 3}
   respawnSFX: {fileID: 8300000, guid: ab698b7afbba6d144b504e3a9dba3a0c, type: 3}
   ballImpactSFX: {fileID: 8300000, guid: 236b9dceb0dd3134dbfc1727b04613d0, type: 3}

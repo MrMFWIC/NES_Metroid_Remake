@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     public bool isPoweredUp = false;
 
     public AudioClip jumpSFX;
+    public AudioClip walkSFX;
     public AudioClip ballSFX;
     public AudioClip respawnSFX;
     public AudioClip ballImpactSFX;
@@ -172,5 +173,10 @@ public class PlayerController : MonoBehaviour
     public void CallRespawnSound()
     {
         sfxManager.Play(respawnSFX, false);
+    }
+
+    public void WalkSFX()
+    {
+        sfxManager.Play(walkSFX, false);
     }
 }
